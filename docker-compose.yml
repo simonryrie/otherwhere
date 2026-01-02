@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  firestore:
+    image: google/cloud-sdk:emulators
+    container_name: otherwhere-firestore
+    command: >
+      bash -c "gcloud emulators firestore start
+      --host-port=0.0.0.0:8081
+      --project=otherwhere-local"
+    ports:
+      - "8081:8081"
+    environment:
+      - FIRESTORE_PROJECT_ID=otherwhere-local
+    volumes:
+      - firestore-data:/opt/data
+
+volumes:
+  firestore-data:
