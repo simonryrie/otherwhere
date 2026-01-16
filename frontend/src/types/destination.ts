@@ -28,7 +28,6 @@ export interface DestinationFeatures {
 
   // Urbanization
   population: number               // Population (normalized)
-  population_density: number       // People per km²
 
   // Nature & Geography
   coast_distance_km: number        // Distance to coast (normalized, 0 = on coast)
