@@ -25,6 +25,7 @@ Whether the destination is a city or a broader region.
 ```
 
 **Examples:**
+
 - City: Lisbon, Kyoto, Medellín
 - Region: Algarve, Bali, Patagonia
 
@@ -63,7 +64,7 @@ Major geographic regions for broad filtering.
     "population_density": 0.28,
     "coast_distance_km": 0.02,
     "nature_ratio": 0.62,
-    "elevation": 0.10,
+    "elevation": 0.1,
     "skiing_score": 0.0,
     "water_sports_score": 0.85,
     "hiking_score": 0.45,
@@ -72,9 +73,7 @@ Major geographic regions for broad filtering.
     "development_level": 0.78,
     "gdp_per_capita": 0.72
   },
-  "images": [
-    "https://commons.wikimedia.org/wiki/File:Lagos_beach.jpg"
-  ],
+  "images": ["https://commons.wikimedia.org/wiki/File:Lagos_beach.jpg"],
   "description": "Coastal town in the Algarve region..."
 }
 ```
@@ -87,51 +86,51 @@ All features are **normalized to [0, 1]** where possible.
 
 ### Climate
 
-| Feature | Description | Normalization |
-|---------|-------------|---------------|
-| `avg_temp_c` | Average annual temperature | Scaled from -10°C to 40°C |
+| Feature      | Description                | Normalization             |
+| ------------ | -------------------------- | ------------------------- |
+| `avg_temp_c` | Average annual temperature | Scaled from -15°C to 45°C |
 
 ### Tourism & Popularity
 
-| Feature | Description | Normalization |
-|---------|-------------|---------------|
-| `tourism_density` | Density of tourism POIs (hotels, attractions) per km² | Percentile across all destinations |
-| `wikipedia_pageviews` | Monthly Wikipedia pageviews | Log scale, percentile |
-| `accommodation_density` | Hotels and lodging per km² | Percentile |
+| Feature                 | Description                                           | Normalization                      |
+| ----------------------- | ----------------------------------------------------- | ---------------------------------- |
+| `tourism_density`       | Density of tourism POIs (hotels, attractions) per km² | Percentile across all destinations |
+| `wikipedia_pageviews`   | Monthly Wikipedia pageviews                           | Log scale, percentile              |
+| `accommodation_density` | Hotels and lodging per km²                            | Percentile                         |
 
 ### Urbanization
 
-| Feature | Description | Normalization |
-|---------|-------------|---------------|
-| `population` | Total population | Log scale, percentile |
-| `population_density` | People per km² | Percentile |
+| Feature              | Description      | Normalization         |
+| -------------------- | ---------------- | --------------------- |
+| `population`         | Total population | Log scale, percentile |
+| `population_density` | People per km²   | Percentile            |
 
 ### Nature & Geography
 
-| Feature | Description | Normalization |
-|---------|-------------|---------------|
-| `coast_distance_km` | Distance to nearest coast | 0 = on coast, max capped at 500km |
-| `nature_ratio` | Ratio of parks, forests, beaches in area | Direct percentage [0, 1] |
-| `elevation` | Elevation / mountain proximity | Scaled from 0 to 5000m |
+| Feature             | Description                              | Normalization                     |
+| ------------------- | ---------------------------------------- | --------------------------------- |
+| `coast_distance_km` | Distance to nearest coast                | 0 = on coast, max capped at 500km |
+| `nature_ratio`      | Ratio of parks, forests, beaches in area | Direct percentage [0, 1]          |
+| `elevation`         | Elevation / mountain proximity           | Scaled from 0 to 5000m            |
 
 ### Activities
 
 All activity scores represent **relative availability** based on POI density.
 
-| Feature | Description | Data Sources |
-|---------|-------------|--------------|
-| `skiing_score` | Ski resorts, lifts, alpine facilities | OSM amenity tags |
-| `water_sports_score` | Beaches, marinas, surf spots, diving | OSM leisure/sport tags |
-| `hiking_score` | Trails, national parks, elevation variance | OSM trails, protected areas |
-| `wildlife_score` | Protected areas, reserves, biodiversity | UNESCO, WWF data |
-| `nightlife_density` | Bars, clubs, entertainment venues | OSM amenity tags |
+| Feature              | Description                                | Data Sources                |
+| -------------------- | ------------------------------------------ | --------------------------- |
+| `skiing_score`       | Ski resorts, lifts, alpine facilities      | OSM amenity tags            |
+| `water_sports_score` | Beaches, marinas, surf spots, diving       | OSM leisure/sport tags      |
+| `hiking_score`       | Trails, national parks, elevation variance | OSM trails, protected areas |
+| `wildlife_score`     | Protected areas, reserves, biodiversity    | UNESCO, WWF data            |
+| `nightlife_density`  | Bars, clubs, entertainment venues          | OSM amenity tags            |
 
 ### Development & Cultural Context
 
-| Feature | Description | Normalization |
-|---------|-------------|---------------|
+| Feature             | Description                 | Normalization                            |
+| ------------------- | --------------------------- | ---------------------------------------- |
 | `development_level` | Modern infrastructure index | Composite of GDP, infrastructure density |
-| `gdp_per_capita` | Economic indicator | Percentile across destinations |
+| `gdp_per_capita`    | Economic indicator          | Percentile across destinations           |
 
 ---
 
@@ -148,6 +147,7 @@ Feature constraints allow filtering destinations by their characteristics.
 ```
 
 Constraints are generated by:
+
 1. **LLM semantic translation** (primary path)
 2. **Predefined vibe tags** (e.g., "chill" → specific constraints)
 3. **User-defined filters** (future: manual sliders)
@@ -180,12 +180,12 @@ These are **applied first** before vibe-based ranking.
 
 ### Methods
 
-| Type | Method | Example |
-|------|--------|---------|
-| Temperature | Linear scale | -10°C → 0, 40°C → 1 |
-| Density metrics | Percentile rank | 90th percentile → 0.9 |
-| Ratios | Direct percentage | 60% nature → 0.6 |
-| Popularity | Log scale + percentile | High variance data |
+| Type            | Method                 | Example               |
+| --------------- | ---------------------- | --------------------- |
+| Temperature     | Linear scale           | -10°C → 0, 40°C → 1   |
+| Density metrics | Percentile rank        | 90th percentile → 0.9 |
+| Ratios          | Direct percentage      | 60% nature → 0.6      |
+| Popularity      | Log scale + percentile | High variance data    |
 
 ---
 

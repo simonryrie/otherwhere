@@ -37,8 +37,7 @@ type DestinationFeatures struct {
 	AccommodationDensity  float64 `json:"accommodation_density" firestore:"accommodation_density"`
 
 	// Urbanization
-	Population        float64 `json:"population" firestore:"population"`
-	PopulationDensity float64 `json:"population_density" firestore:"population_density"`
+	Population float64 `json:"population" firestore:"population"`
 
 	// Nature & Geography
 	CoastDistanceKm float64 `json:"coast_distance_km" firestore:"coast_distance_km"`

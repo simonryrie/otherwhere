@@ -48,14 +48,9 @@ class DestinationFeatures:
     wikipedia_pageviews: float = 0.0
     accommodation_density: float = 0.0
 
-    # Urbanization
-    population: float = 0.0
-    population_density: float = 0.0
-
     # Nature & Geography
     coast_distance_km: float = 0.0
     nature_ratio: float = 0.0
-    elevation: float = 0.0
 
     # Activities (all normalized 0-1 scores)
     skiing_score: float = 0.0
@@ -75,11 +70,8 @@ class DestinationFeatures:
             "tourism_density": self.tourism_density,
             "wikipedia_pageviews": self.wikipedia_pageviews,
             "accommodation_density": self.accommodation_density,
-            "population": self.population,
-            "population_density": self.population_density,
             "coast_distance_km": self.coast_distance_km,
             "nature_ratio": self.nature_ratio,
-            "elevation": self.elevation,
             "skiing_score": self.skiing_score,
             "water_sports_score": self.water_sports_score,
             "hiking_score": self.hiking_score,
@@ -111,6 +103,7 @@ class Destination:
 
     # Media and description
     images: List[str] = field(default_factory=list)
+    image_download_urls: List[str] = field(default_factory=list)  # For Unsplash attribution
     description: Optional[str] = None
 
     def to_dict(self):
@@ -124,6 +117,7 @@ class Destination:
             "location": self.location.to_dict(),
             "features": self.features.to_dict(),
             "images": self.images,
+            "image_download_urls": self.image_download_urls,
         }
 
         if self.region:
