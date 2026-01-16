@@ -26,3 +26,6 @@ ENV/
 *.swp
 *.swo
 *~
+
+# Firebase credentials
+firebase-credentials.json

@@ -279,13 +279,63 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Uploading to Firestore
+
+After running the ingestion, upload the data to Firebase Firestore.
+
+### 1. Set Up Firebase
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project or select an existing one
+3. Enable Firestore Database:
+   - Go to Firestore Database in the left sidebar
+   - Click "Create database"
+   - Choose production mode or test mode
+   - Select a location
+4. Download service account credentials:
+   - Go to Project Settings → Service Accounts
+   - Click "Generate new private key"
+   - Save the JSON file as `firebase-credentials.json` in this directory
+
+### 2. Upload Data
+
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Upload with overwrite mode (recommended - keeps Firestore in sync with JSON)
+python upload_to_firestore.py
+
+# Or upload with update mode (keeps orphaned documents)
+python upload_to_firestore.py --mode update
+
+# Custom options
+python upload_to_firestore.py \
+  --credentials path/to/credentials.json \
+  --data data/destinations.json \
+  --collection destinations \
+  --mode overwrite
+```
+
+### Upload Modes
+
+- **Overwrite mode** (default): Deletes entire collection, then uploads fresh data
+  - ✅ Keeps Firestore perfectly in sync with JSON
+  - ✅ Removes destinations deleted from JSON
+  - ⚠️  Requires re-uploading all data
+
+- **Update mode**: Upserts documents without deleting
+  - ✅ Faster for incremental updates
+  - ✅ Preserves manual changes to Firestore
+  - ⚠️  Orphaned documents remain if destinations are deleted from JSON
+
 ## Next Steps
 
-After running the ingestion:
+After uploading to Firestore:
 
-1. **Review the data**: Check `destinations.json` to verify output quality
-2. **Upload to Firestore**: Run the upload script (to be created)
-3. **Build ranking algorithm**: Use the normalized features for personalized recommendations
+1. **Review the data**: Verify the upload in Firebase Console
+2. **Build ranking algorithm**: Use the normalized features for personalized recommendations
+3. **Integrate with app**: Connect your frontend/backend to Firestore
 
 ## Notes
 
